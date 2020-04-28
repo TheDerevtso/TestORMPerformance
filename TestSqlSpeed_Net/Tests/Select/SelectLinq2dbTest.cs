@@ -176,7 +176,7 @@ namespace TestSqlSpeed_Net.Tests.Select
 
                     selectedUsersList.AddRange(q);
 
-                    var lst = db.LastQuery;
+                    //var lst = db.LastQuery;
                 }
 
                 //{
@@ -342,7 +342,7 @@ namespace TestSqlSpeed_Net.Tests.Select
                     //selectedUsersList.Add(query);
                 }
 
-                Console.WriteLine("LastQuery: =============\n{0}\n========", db.LastQuery);
+                //Console.WriteLine("LastQuery: =============\n{0}\n========", db.LastQuery);
 
                 //using (var db = PostgreSQLTools.CreateDataConnection(ConnectionString))
                 //{
@@ -410,7 +410,7 @@ namespace TestSqlSpeed_Net.Tests.Select
 
                     selectedUsersList.AddRange(query);
 
-                    var lst = db.LastQuery;
+                    //var lst = db.LastQuery;
                 }
 
                 //{
