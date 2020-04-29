@@ -45,6 +45,9 @@ namespace TestSqlSpeed_Net.Tests.Select
                 { TestProcedure = Linq2db_SelectUser_LinqCompiled, UseTransaction = true, OneByOne = true },
 
                 new Select_TestParameters()
+                { TestProcedure = Linq2db_SelectUser_LinqCompiled, UseTransaction = true, OneByOne = false },
+
+                new Select_TestParameters()
                 { TestProcedure = Linq2db_SelectUser_Query, UseTransaction = true, OneByOne = false },
 
                 new Select_TestParameters()
@@ -141,6 +144,19 @@ namespace TestSqlSpeed_Net.Tests.Select
             return selectedUsersList;
         }
 
+        private static Func<DataConnection, long, IQueryable<User>> _linqCompiled = 
+            CompiledQuery.Compile<DataConnection, long, IQueryable<User>>(
+            (_db, userId) => from c in _db.GetTable<User>()
+                     where c.Id == userId
+                     select c);
+
+        private static Func<DataConnection, long[], IQueryable<User>> _linqBatchCompiled =
+            CompiledQuery.Compile<DataConnection, long[], IQueryable<User>>(
+                (_db, _usrArr) => from u in _db.GetTable<User>()
+                                 where _usrArr.Contains(u.Id)
+                                 select u
+                );
+
         private static List<User> Linq2db_SelectUser_LinqCompiled(DBHelper.InnerDbConnection innerConnection, List<User> usersList, Select_TestParameters parameters)
         {
             List<User> selectedUsersList = new List<User>();
@@ -149,16 +165,11 @@ namespace TestSqlSpeed_Net.Tests.Select
             {
                 var db = (LinqToDB.Data.DataConnection)innerConnection.Connection;
 
-                var _compiled = CompiledQuery.Compile<DataConnection, long, IQueryable<User>>(
-                    (_db, userId) => from c in _db.GetTable<User>()
-                     where c.Id == userId
-                     select c);
-
                 foreach (var user in usersList)
                 {
                     //var query = db.FromSql<User>($"SELECT * FROM public.user_tbl WHERE id = {user.Id};");
 
-                    selectedUsersList.AddRange(_compiled(db, user.Id));
+                    selectedUsersList.AddRange(_linqCompiled(db, user.Id));
                 }
 
             }
@@ -167,13 +178,13 @@ namespace TestSqlSpeed_Net.Tests.Select
                 var db = (LinqToDB.Data.DataConnection)innerConnection.Connection;
 
                 {
-                    var usrArr = usersList.Select(u => u.Id).ToArray();
+                    var usrArr = usersList.Select(u => u.Id).ToArray(); //ToArray actually needed?
 
-                    var q = from u in db.GetTable<User>()
-                            where usrArr.Contains(u.Id)
-                            select u;
+                    //var q = from u in db.GetTable<User>()
+                    //        where usrArr.Contains(u.Id)
+                    //        select u;
 
-                    selectedUsersList.AddRange(q);
+                    selectedUsersList.AddRange(_linqBatchCompiled(db, usrArr));
                 }
             }
 
@@ -197,7 +208,6 @@ namespace TestSqlSpeed_Net.Tests.Select
                     queryBuilder.Append(user.Id.ToString());
 
                     var query = db.Query<User>(queryBuilder.ToString());
-
 
                     foreach (var record in query)
                     {
