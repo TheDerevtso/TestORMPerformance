@@ -33,6 +33,7 @@ namespace TestSqlSpeed_Net
             {
                 DBHelper.PrepareBLToolkit();
                 Tests.TestProcessor.ProcessTests();
+                Tests.TestProcessor.ProcessTests();
             }
             else
             {
