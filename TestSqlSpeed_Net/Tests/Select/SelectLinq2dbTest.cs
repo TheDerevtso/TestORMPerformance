@@ -607,7 +607,7 @@ namespace TestSqlSpeed_Net.Tests.Select
                     queryBuilder.Append(user.Id.ToString());
                     //var query = db.Execute<User[]>(queryBuilder.ToString());
 
-                    var query = db.Query<User>(queryBuilder.ToString());
+                    //var query = db.Query<User>(queryBuilder.ToString());
                     //var query = db.Execute<User>($"SELECT * FROM public.user_tbl WHERE id = {user.Id}");
 
 
@@ -626,7 +626,7 @@ namespace TestSqlSpeed_Net.Tests.Select
                     //sb.Append(user.Id.ToString());
 
                     ////var query = db.FromSql<User>(String.Format("SELECT * FROM public.user_tbl WHERE id = {0}", user.Id));
-                    //var query = db.FromSql<User>(queryBuilder.ToString());
+                    var query = db.FromSql<User>(queryBuilder.ToString());
                     //var query = db.FromSql<User>("SELECT * FROM public.user_tbl WHERE id = $1", new object[] { user.Id });
                     //var query = db.FromSql<User>("SELECT * FROM public.user_tbl WHERE id = {0}", user.Id );
 
