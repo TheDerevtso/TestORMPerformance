@@ -29,7 +29,6 @@ namespace TestSqlSpeed_Net.Tests.Select
 
         protected override List<Select_TestParameters> CreateParametersVariations()
         {
-            //throw new NotImplementedException();
 
             return new List<Select_TestParameters>()
             {
@@ -96,24 +95,6 @@ namespace TestSqlSpeed_Net.Tests.Select
             };
         }
 
-        //private List<User> Linq2db_SelectTest(DBHelper.InnerDbConnection connection, List<User> userList, Select_TestParameters parameters)
-        //{
-        //    using (var cmd = new NpgsqlCommand())
-        //    {
-        //        cmd.CommandText = "SELECT int_num FROM public.test_nums ORDER BY id DESC LIMIT 1";
-        //        cmd.Connection = (NpgsqlConnection)(connection.Connection);
-
-        //        using (var reader = cmd.ExecuteReader())
-        //        {
-        //            reader.Read();
-        //            var val = reader.GetFieldValue<int>(0);
-        //            nlog.Info("Npgsql: {0}", val);
-        //            nlog.Info("int32max: {0}, value = {1}", Int32.MaxValue, val);
-        //        }
-        //    }
-        //    return new List<User>() { new User() };
-        //}
-
         private static List<User> Linq2db_SelectUser_Linq(DBHelper.InnerDbConnection innerConnection, List<User> usersList, Select_TestParameters parameters)
         {
             List<User> selectedUsersList = new List<User>();
@@ -121,8 +102,6 @@ namespace TestSqlSpeed_Net.Tests.Select
             if (parameters.OneByOne)
             {
                 var db = (LinqToDB.Data.DataConnection)innerConnection.Connection;
-
-
 
                 foreach (var user in usersList)
                 {
@@ -140,50 +119,13 @@ namespace TestSqlSpeed_Net.Tests.Select
                 }
 
 
-
-                //using (var db = PostgreSQLTools.CreateDataConnection(ConnectionString))
-                //{
-
-                //}
-                //using (var cmd = new NpgsqlCommand())
-                //{
-                //    cmd.Connection = (NpgsqlConnection)(innerConnection.Connection);
-                //    foreach (var user in usersList)
-                //    {
-                //        selectUser = new User();
-                //        cmd.CommandText = String.Format(
-                //        "SELECT * FROM public.user_tbl WHERE id = {0};",
-                //        user.Id
-                //        );
-
-                //        using (var reader = cmd.ExecuteReader())
-                //        {
-                //            if (reader.Read())
-                //            {
-                //                selectUser.Id = reader.GetInt64(0);
-                //                selectUser.Name = reader.GetString(1);
-                //                selectUser.Login_count = reader.GetInt32(2);
-                //            }
-                //        }
-                //        selectedUsersList.Add(selectUser);
-                //    }
-                //}
-
             }
             else
             {
                 var db = (LinqToDB.Data.DataConnection)innerConnection.Connection;
 
-                //var q =
-                //    from c in db.GetTable<User>()
-                //    join u in usersList on c.Id == u.Id
-                //    select c;
-                //var q = from c in db.GetTable<User>()
-                //        where c
                 {
                     var usrArr = usersList.Select(u => u.Id).ToArray();
-
-
 
                     var q = from u in db.GetTable<User>()
                             where usrArr.Contains(u.Id)
@@ -194,102 +136,7 @@ namespace TestSqlSpeed_Net.Tests.Select
                     //var lst = db.LastQuery;
                 }
 
-                //{
-                //    var usrArr = usersList.Select(u => u.Id).ToArray();
-
-                //    var uArr = usersList.ToArray();
-
-
-
-                //    //var q = from u in db.GetTable<User>()
-                //    //        where 
-                //    //        select u;
-
-                //    selectedUsersList.AddRange(q);
-
-                //    var lst = db.LastQuery;
-                //}
-
-
-                //using (var cmd = new NpgsqlCommand())
-                //{
-                //    StringBuilder concatCommand = new StringBuilder(
-                //        "SELECT * FROM public.user_tbl WHERE id IN ( ");
-
-                //    //StringBuilder sb = new StringBuilder();
-
-                //    foreach (var usr in usersList)
-                //    {
-                //        concatCommand.Append(usr.Id.ToString()).Append(',');
-                //    }
-
-                //    concatCommand.Remove(concatCommand.Length - 1, 1);
-                //    //string ids = String.Join<long>(",", usersList.Select(user => user.Id));
-
-                //    concatCommand.Append(" );");
-
-                //    cmd.CommandText = concatCommand.ToString();
-                //    cmd.Connection = (NpgsqlConnection)(innerConnection.Connection);
-
-
-                //    using (var reader = cmd.ExecuteReader())
-                //    {
-                //        while (reader.Read())
-                //        {
-                //            User selectUser;
-                //            selectUser = new User();
-
-                //            selectUser.Id = reader.GetInt64(0);
-                //            selectUser.Name = reader.GetString(1);
-                //            selectUser.Login_count = reader.GetInt32(2);
-
-                //            selectedUsersList.Add(selectUser);
-                //        }
-                //    }
-
-                //}
             }
-
-
-            //DbManager db = (DbManager)(innerConnection.Connection);
-
-            //List<User> selectedUsersList = new List<User>();
-
-            //if (parameters.OneByOne)
-            //{
-            //    User selectedUser;
-
-            //    foreach (var user in usersList)
-            //    {
-            //        selectedUser = db.SetCommand(
-            //        (new StringBuilder()).AppendFormat(
-            //            "SELECT * FROM public.user_tbl WHERE id = {0};",
-            //            user.Id
-            //            ).ToString())
-            //            .ExecuteObject<User>();
-            //        if (selectedUser != null)
-            //        {
-            //            selectedUsersList.Add(selectedUser);
-            //        }
-            //    }
-
-            //}
-            //else
-            //{
-            //    StringBuilder concatCommand = new StringBuilder(
-            //        "SELECT * FROM public.user_tbl WHERE id IN ");
-
-            //    StringBuilder sb = new StringBuilder();
-
-            //    string ids = String.Join<long>(",", usersList.Select(user => user.Id));
-
-            //    concatCommand.AppendFormat("( {0} );", ids);
-
-            //    db.SetCommand(concatCommand.ToString());
-
-            //    selectedUsersList = db.ExecuteList<User>();
-
-            //}
 
             return selectedUsersList;
         }
@@ -297,8 +144,6 @@ namespace TestSqlSpeed_Net.Tests.Select
         private static List<User> Linq2db_SelectUser_LinqCompiled(DBHelper.InnerDbConnection innerConnection, List<User> usersList, Select_TestParameters parameters)
         {
             List<User> selectedUsersList = new List<User>();
-
-
 
             if (parameters.OneByOne)
             {
@@ -324,15 +169,11 @@ namespace TestSqlSpeed_Net.Tests.Select
                 {
                     var usrArr = usersList.Select(u => u.Id).ToArray();
 
-
-
                     var q = from u in db.GetTable<User>()
                             where usrArr.Contains(u.Id)
                             select u;
 
                     selectedUsersList.AddRange(q);
-
-
                 }
             }
 
@@ -352,52 +193,11 @@ namespace TestSqlSpeed_Net.Tests.Select
 
                 foreach (var user in usersList)
                 {
-                    //var query = db.FromSql<User>($"SELECT * FROM public.user_tbl WHERE id = {user.Id}");
-                    //var query = db.FromSql<User>($"SELECT user_tbl.id, user_tbl.name, user_tbl.login_count FROM public.user_tbl WHERE user_tbl.id = {user.Id}");
-                    //StringBuilder queryBuilder = new StringBuilder("SELECT user_tbl.id, user_tbl.name, user_tbl.login_count FROM public.user_tbl WHERE user_tbl.id =");
-                    //queryBuilder.Append(user.Id.ToString());
-                    //var query = db.FromSql<User>(queryBuilder.ToString());
-
-                    //var query = db.Execute<List<User>>($"SELECT * FROM public.user_tbl WHERE id = {user.Id}");
-                    //var query = db.Execute<User[]>($"SELECT * FROM public.user_tbl WHERE id = {user.Id}");
-                    //DataParameter dp = new DataParameter();
-
                     StringBuilder queryBuilder = new StringBuilder("SELECT id, name, login_count FROM public.user_tbl WHERE id = ");
                     queryBuilder.Append(user.Id.ToString());
-                    //var query = db.Execute<User[]>(queryBuilder.ToString());
 
                     var query = db.Query<User>(queryBuilder.ToString());
-                    //var query = db.Execute<User>($"SELECT * FROM public.user_tbl WHERE id = {user.Id}");
 
-
-                    //                    SELECT
-                    //        t1.id,
-                    //        t1.name,
-                    //        t1.login_count
-                    //FROM
-                    //        (
-                    //                SELECT * FROM public.user_tbl WHERE id = 45507540
-                    //        ) t1
-                    //dp.Value = user.Id;
-                    //var query = db.FromSql<User>($"SELECT * FROM public.user_tbl WHERE id = {new DataParameter("usId", user.Id, DataType.Int64)}");
-                    //var query = db.FromSql<User>($"SELECT * FROM public.user_tbl WHERE id = {dp} LIMIT 1");
-                    //StringBuilder sb = new StringBuilder("SELECT * FROM public.user_tbl WHERE id = ");
-                    //sb.Append(user.Id.ToString());
-
-                    ////var query = db.FromSql<User>(String.Format("SELECT * FROM public.user_tbl WHERE id = {0}", user.Id));
-                    //var query = db.FromSql<User>(sb.ToString());
-
-                    //var res = query.ToArray();
-
-
-                    //var q =
-                    //    from c in db.GetTable<User>()
-                    //    where c.Id == user.Id
-                    //    select c;
-
-                    //var q = db.SelectQuery<User>(u => u.Id)
-
-                    //User[] _res = query.ToArray();
 
                     foreach (var record in query)
                     {
@@ -406,50 +206,13 @@ namespace TestSqlSpeed_Net.Tests.Select
                     //selectedUsersList.AddRange(query.ToArray());
                     //selectedUsersList.Add(query);
                 }
-
-                //Console.WriteLine("LastQuery: =============\n{0}\n========", db.LastQuery);
-
-                //using (var db = PostgreSQLTools.CreateDataConnection(ConnectionString))
-                //{
-
-                //}
-                //using (var cmd = new NpgsqlCommand())
-                //{
-                //    cmd.Connection = (NpgsqlConnection)(innerConnection.Connection);
-                //    foreach (var user in usersList)
-                //    {
-                //        selectUser = new User();
-                //        cmd.CommandText = String.Format(
-                //        "SELECT * FROM public.user_tbl WHERE id = {0};",
-                //        user.Id
-                //        );
-
-                //        using (var reader = cmd.ExecuteReader())
-                //        {
-                //            if (reader.Read())
-                //            {
-                //                selectUser.Id = reader.GetInt64(0);
-                //                selectUser.Name = reader.GetString(1);
-                //                selectUser.Login_count = reader.GetInt32(2);
-                //            }
-                //        }
-                //        selectedUsersList.Add(selectUser);
-                //    }
-                //}
-
             }
             else
             {
                 var db = (LinqToDB.Data.DataConnection)innerConnection.Connection;
 
-                //var q =
-                //    from c in db.GetTable<User>()
-                //    join u in usersList on c.Id == u.Id
-                //    select c;
-                //var q = from c in db.GetTable<User>()
-                //        where c
                 {
-                    var usrArr = usersList.Select(u => u.Id).ToArray();
+                    //var usrArr = usersList.Select(u => u.Id).ToArray();
 
                     StringBuilder concatCommand = new StringBuilder(
                             "SELECT * FROM public.user_tbl WHERE id IN ( ");
@@ -463,117 +226,13 @@ namespace TestSqlSpeed_Net.Tests.Select
 
                     concatCommand.Append(" )");
 
-
-                    //var query = db.FromSql<User>(concatCommand.ToString());
-                    //var query = db.Execute<List<User>>(concatCommand.ToString());
-                    //var query = db.Execute<User[]>(concatCommand.ToString());
                     var query = db.Query<User>(concatCommand.ToString());
 
-                    //var q = from u in db.GetTable<User>()
-                    //        where usrArr.Contains(u.Id)
-                    //        select u;
 
                     selectedUsersList.AddRange(query);
 
-                    //var lst = db.LastQuery;
                 }
-
-                //{
-                //    var usrArr = usersList.Select(u => u.Id).ToArray();
-
-                //    var uArr = usersList.ToArray();
-
-
-
-                //    //var q = from u in db.GetTable<User>()
-                //    //        where 
-                //    //        select u;
-
-                //    selectedUsersList.AddRange(q);
-
-                //    var lst = db.LastQuery;
-                //}
-
-
-                //using (var cmd = new NpgsqlCommand())
-                //{
-                //    StringBuilder concatCommand = new StringBuilder(
-                //        "SELECT * FROM public.user_tbl WHERE id IN ( ");
-
-                //    //StringBuilder sb = new StringBuilder();
-
-                //    foreach (var usr in usersList)
-                //    {
-                //        concatCommand.Append(usr.Id.ToString()).Append(',');
-                //    }
-
-                //    concatCommand.Remove(concatCommand.Length - 1, 1);
-                //    //string ids = String.Join<long>(",", usersList.Select(user => user.Id));
-
-                //    concatCommand.Append(" );");
-
-                //    cmd.CommandText = concatCommand.ToString();
-                //    cmd.Connection = (NpgsqlConnection)(innerConnection.Connection);
-
-
-                //    using (var reader = cmd.ExecuteReader())
-                //    {
-                //        while (reader.Read())
-                //        {
-                //            User selectUser;
-                //            selectUser = new User();
-
-                //            selectUser.Id = reader.GetInt64(0);
-                //            selectUser.Name = reader.GetString(1);
-                //            selectUser.Login_count = reader.GetInt32(2);
-
-                //            selectedUsersList.Add(selectUser);
-                //        }
-                //    }
-
-                //}
             }
-
-
-            //DbManager db = (DbManager)(innerConnection.Connection);
-
-            //List<User> selectedUsersList = new List<User>();
-
-            //if (parameters.OneByOne)
-            //{
-            //    User selectedUser;
-
-            //    foreach (var user in usersList)
-            //    {
-            //        selectedUser = db.SetCommand(
-            //        (new StringBuilder()).AppendFormat(
-            //            "SELECT * FROM public.user_tbl WHERE id = {0};",
-            //            user.Id
-            //            ).ToString())
-            //            .ExecuteObject<User>();
-            //        if (selectedUser != null)
-            //        {
-            //            selectedUsersList.Add(selectedUser);
-            //        }
-            //    }
-
-            //}
-            //else
-            //{
-            //    StringBuilder concatCommand = new StringBuilder(
-            //        "SELECT * FROM public.user_tbl WHERE id IN ");
-
-            //    StringBuilder sb = new StringBuilder();
-
-            //    string ids = String.Join<long>(",", usersList.Select(user => user.Id));
-
-            //    concatCommand.AppendFormat("( {0} );", ids);
-
-            //    db.SetCommand(concatCommand.ToString());
-
-            //    selectedUsersList = db.ExecuteList<User>();
-
-            //}
 
             return selectedUsersList;
         }
@@ -586,113 +245,25 @@ namespace TestSqlSpeed_Net.Tests.Select
             {
                 var db = (LinqToDB.Data.DataConnection)innerConnection.Connection;
 
-                //var dp = new DataParameter("usId", 0, DataType.Int64);
-
-                //var _compiled = CompiledQuery.Compile<DataConnection, long, IQueryable<User>>(
-                //    (_db, _userId) => _db.FromSql<User>("SELECT * FROM public.user_tbl WHERE id = @userid", new DataParameter("@userId", _userId)));
-
                 foreach (var user in usersList)
                 {
-                    //var query = db.FromSql<User>($"SELECT * FROM public.user_tbl WHERE id = {user.Id}");
-                    //var query = db.FromSql<User>($"SELECT user_tbl.id, user_tbl.name, user_tbl.login_count FROM public.user_tbl WHERE user_tbl.id = {user.Id}");
-                    //StringBuilder queryBuilder = new StringBuilder("SELECT user_tbl.id, user_tbl.name, user_tbl.login_count FROM public.user_tbl WHERE user_tbl.id =");
-                    //queryBuilder.Append(user.Id.ToString());
-                    //var query = db.FromSql<User>(queryBuilder.ToString());
-
-                    //var query = db.Execute<List<User>>($"SELECT * FROM public.user_tbl WHERE id = {user.Id}");
-                    //var query = db.Execute<User[]>($"SELECT * FROM public.user_tbl WHERE id = {user.Id}");
-                    //DataParameter dp = new DataParameter();
 
                     StringBuilder queryBuilder = new StringBuilder("SELECT id, name, login_count FROM public.user_tbl WHERE id = ");
                     queryBuilder.Append(user.Id.ToString());
-                    //var query = db.Execute<User[]>(queryBuilder.ToString());
-
-                    //var query = db.Query<User>(queryBuilder.ToString());
-                    //var query = db.Execute<User>($"SELECT * FROM public.user_tbl WHERE id = {user.Id}");
-
-
-                    //                    SELECT
-                    //        t1.id,
-                    //        t1.name,
-                    //        t1.login_count
-                    //FROM
-                    //        (
-                    //                SELECT * FROM public.user_tbl WHERE id = 45507540
-                    //        ) t1
-                    //dp.Value = user.Id;
-                    //var query = db.FromSql<User>($"SELECT * FROM public.user_tbl WHERE id = {new DataParameter("usId", user.Id, DataType.Int64)}");
-                    //var query = db.FromSql<User>($"SELECT * FROM public.user_tbl WHERE id = {dp} LIMIT 1");
-                    //StringBuilder sb = new StringBuilder("SELECT * FROM public.user_tbl WHERE id = ");
-                    //sb.Append(user.Id.ToString());
-
-                    ////var query = db.FromSql<User>(String.Format("SELECT * FROM public.user_tbl WHERE id = {0}", user.Id));
+                    
                     var query = db.FromSql<User>(queryBuilder.ToString());
-                    //var query = db.FromSql<User>("SELECT * FROM public.user_tbl WHERE id = $1", new object[] { user.Id });
-                    //var query = db.FromSql<User>("SELECT * FROM public.user_tbl WHERE id = {0}", user.Id );
-
-                    //var res = query.ToArray();
-
-
-                    //var q =
-                    //    from c in db.GetTable<User>()
-                    //    where c.Id == user.Id
-                    //    select c;
-
-                    //var q = db.SelectQuery<User>(u => u.Id)
-
-                    //User[] _res = query.ToArray();
-
-                    //foreach (var record in query)
-                    //{
-                    //    selectedUsersList.Add(record);
-                    //}
-                    selectedUsersList.AddRange(query.ToArray());
-                    //selectedUsersList.Add(query);
+                    
+                    selectedUsersList.AddRange(query);
                 }
 
-                //Console.WriteLine("LastQuery: =============\n{0}\n========", db.LastQuery);
-
-                //using (var db = PostgreSQLTools.CreateDataConnection(ConnectionString))
-                //{
-
-                //}
-                //using (var cmd = new NpgsqlCommand())
-                //{
-                //    cmd.Connection = (NpgsqlConnection)(innerConnection.Connection);
-                //    foreach (var user in usersList)
-                //    {
-                //        selectUser = new User();
-                //        cmd.CommandText = String.Format(
-                //        "SELECT * FROM public.user_tbl WHERE id = {0};",
-                //        user.Id
-                //        );
-
-                //        using (var reader = cmd.ExecuteReader())
-                //        {
-                //            if (reader.Read())
-                //            {
-                //                selectUser.Id = reader.GetInt64(0);
-                //                selectUser.Name = reader.GetString(1);
-                //                selectUser.Login_count = reader.GetInt32(2);
-                //            }
-                //        }
-                //        selectedUsersList.Add(selectUser);
-                //    }
-                //}
 
             }
             else
             {
                 var db = (LinqToDB.Data.DataConnection)innerConnection.Connection;
 
-                //var q =
-                //    from c in db.GetTable<User>()
-                //    join u in usersList on c.Id == u.Id
-                //    select c;
-                //var q = from c in db.GetTable<User>()
-                //        where c
                 {
-                    var usrArr = usersList.Select(u => u.Id).ToArray();
+                    //var usrArr = usersList.Select(u => u.Id).ToArray();
 
                     StringBuilder concatCommand = new StringBuilder(
                             "SELECT * FROM public.user_tbl WHERE id IN ( ");
@@ -706,117 +277,12 @@ namespace TestSqlSpeed_Net.Tests.Select
 
                     concatCommand.Append(" )");
 
-
                     var query = db.FromSql<User>(concatCommand.ToString());
-                    //var query = db.Execute<List<User>>(concatCommand.ToString());
-                    //var query = db.Execute<User[]>(concatCommand.ToString());
-                    //var query = db.Query<User>(concatCommand.ToString());
-
-                    //var q = from u in db.GetTable<User>()
-                    //        where usrArr.Contains(u.Id)
-                    //        select u;
 
                     selectedUsersList.AddRange(query);
-
-                    //var lst = db.LastQuery;
                 }
 
-                //{
-                //    var usrArr = usersList.Select(u => u.Id).ToArray();
-
-                //    var uArr = usersList.ToArray();
-
-
-
-                //    //var q = from u in db.GetTable<User>()
-                //    //        where 
-                //    //        select u;
-
-                //    selectedUsersList.AddRange(q);
-
-                //    var lst = db.LastQuery;
-                //}
-
-
-                //using (var cmd = new NpgsqlCommand())
-                //{
-                //    StringBuilder concatCommand = new StringBuilder(
-                //        "SELECT * FROM public.user_tbl WHERE id IN ( ");
-
-                //    //StringBuilder sb = new StringBuilder();
-
-                //    foreach (var usr in usersList)
-                //    {
-                //        concatCommand.Append(usr.Id.ToString()).Append(',');
-                //    }
-
-                //    concatCommand.Remove(concatCommand.Length - 1, 1);
-                //    //string ids = String.Join<long>(",", usersList.Select(user => user.Id));
-
-                //    concatCommand.Append(" );");
-
-                //    cmd.CommandText = concatCommand.ToString();
-                //    cmd.Connection = (NpgsqlConnection)(innerConnection.Connection);
-
-
-                //    using (var reader = cmd.ExecuteReader())
-                //    {
-                //        while (reader.Read())
-                //        {
-                //            User selectUser;
-                //            selectUser = new User();
-
-                //            selectUser.Id = reader.GetInt64(0);
-                //            selectUser.Name = reader.GetString(1);
-                //            selectUser.Login_count = reader.GetInt32(2);
-
-                //            selectedUsersList.Add(selectUser);
-                //        }
-                //    }
-
-                //}
             }
-
-
-            //DbManager db = (DbManager)(innerConnection.Connection);
-
-            //List<User> selectedUsersList = new List<User>();
-
-            //if (parameters.OneByOne)
-            //{
-            //    User selectedUser;
-
-            //    foreach (var user in usersList)
-            //    {
-            //        selectedUser = db.SetCommand(
-            //        (new StringBuilder()).AppendFormat(
-            //            "SELECT * FROM public.user_tbl WHERE id = {0};",
-            //            user.Id
-            //            ).ToString())
-            //            .ExecuteObject<User>();
-            //        if (selectedUser != null)
-            //        {
-            //            selectedUsersList.Add(selectedUser);
-            //        }
-            //    }
-
-            //}
-            //else
-            //{
-            //    StringBuilder concatCommand = new StringBuilder(
-            //        "SELECT * FROM public.user_tbl WHERE id IN ");
-
-            //    StringBuilder sb = new StringBuilder();
-
-            //    string ids = String.Join<long>(",", usersList.Select(user => user.Id));
-
-            //    concatCommand.AppendFormat("( {0} );", ids);
-
-            //    db.SetCommand(concatCommand.ToString());
-
-            //    selectedUsersList = db.ExecuteList<User>();
-
-            //}
 
             return selectedUsersList;
         }
@@ -834,8 +300,7 @@ namespace TestSqlSpeed_Net.Tests.Select
 
                     var query = db.FromSql<User>("SELECT * FROM public.user_tbl WHERE id = {0}", user.Id);
 
-                    var usrList = query.ToArray();
-                    selectedUsersList.AddRange(usrList);
+                    selectedUsersList.AddRange(query);
 
                 }
             }
@@ -844,7 +309,7 @@ namespace TestSqlSpeed_Net.Tests.Select
                 var db = (LinqToDB.Data.DataConnection)innerConnection.Connection;
 
                 {
-                    var usrArr = usersList.Select(u => u.Id).ToArray();
+                    //var usrArr = usersList.Select(u => u.Id).ToArray();
 
                     StringBuilder concatCommand = new StringBuilder(
                             "SELECT * FROM public.user_tbl WHERE id IN ( ");
