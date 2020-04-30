@@ -9,7 +9,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>TestSqlSpeed_Net</RootNamespace>
     <AssemblyName>TestSqlSpeed_Net</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -166,9 +166,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Libs\Third-Party\BLToolkit.4.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Libs\Third-Party\BLToolkit.4.dll" />
     <Content Include="Libs\Third-Party\BLToolkit.Data.DataProvider.PostgreSQL.4.dll" />
     <Content Include="Libs\Third-Party\linq2db.dll" />
     <Content Include="Libs\Third-Party\linq2db.xml" />

@@ -9,38 +9,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{1E4C64D0-7
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug FW 3.5|Any CPU = Debug FW 3.5|Any CPU
-		Debug FW 3.5|x86 = Debug FW 3.5|x86
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x86 = Debug|x86
-		DebugMono|Any CPU = DebugMono|Any CPU
-		DebugMono|x86 = DebugMono|x86
 		Release|Any CPU = Release|Any CPU
 		Release|x86 = Release|x86
-		ReleaseMono|Any CPU = ReleaseMono|Any CPU
-		ReleaseMono|x86 = ReleaseMono|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D6404C42-37C8-4127-8352-81ED1F838E7F}.Debug FW 3.5|Any CPU.ActiveCfg = Debug|Any CPU
-		{D6404C42-37C8-4127-8352-81ED1F838E7F}.Debug FW 3.5|Any CPU.Build.0 = Debug|Any CPU
-		{D6404C42-37C8-4127-8352-81ED1F838E7F}.Debug FW 3.5|x86.ActiveCfg = Debug|Any CPU
-		{D6404C42-37C8-4127-8352-81ED1F838E7F}.Debug FW 3.5|x86.Build.0 = Debug|Any CPU
 		{D6404C42-37C8-4127-8352-81ED1F838E7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D6404C42-37C8-4127-8352-81ED1F838E7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6404C42-37C8-4127-8352-81ED1F838E7F}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{D6404C42-37C8-4127-8352-81ED1F838E7F}.Debug|x86.Build.0 = Debug|Any CPU
-		{D6404C42-37C8-4127-8352-81ED1F838E7F}.DebugMono|Any CPU.ActiveCfg = Debug|Any CPU
-		{D6404C42-37C8-4127-8352-81ED1F838E7F}.DebugMono|Any CPU.Build.0 = Debug|Any CPU
-		{D6404C42-37C8-4127-8352-81ED1F838E7F}.DebugMono|x86.ActiveCfg = Debug|Any CPU
-		{D6404C42-37C8-4127-8352-81ED1F838E7F}.DebugMono|x86.Build.0 = Debug|Any CPU
 		{D6404C42-37C8-4127-8352-81ED1F838E7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6404C42-37C8-4127-8352-81ED1F838E7F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D6404C42-37C8-4127-8352-81ED1F838E7F}.Release|x86.ActiveCfg = Release|Any CPU
 		{D6404C42-37C8-4127-8352-81ED1F838E7F}.Release|x86.Build.0 = Release|Any CPU
-		{D6404C42-37C8-4127-8352-81ED1F838E7F}.ReleaseMono|Any CPU.ActiveCfg = Release|Any CPU
-		{D6404C42-37C8-4127-8352-81ED1F838E7F}.ReleaseMono|Any CPU.Build.0 = Release|Any CPU
-		{D6404C42-37C8-4127-8352-81ED1F838E7F}.ReleaseMono|x86.ActiveCfg = Release|Any CPU
-		{D6404C42-37C8-4127-8352-81ED1F838E7F}.ReleaseMono|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

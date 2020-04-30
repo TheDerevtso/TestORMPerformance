@@ -270,7 +270,7 @@ namespace TestSqlSpeed_Net.Tests.Select
                     //StringBuilder queryBuilder = new StringBuilder();
                     //queryBuilder.Append(user.Id.ToString());
 
-                    var query = db.Query<User>("SELECT id, name, login_count FROM public.user_tbl WHERE id = @usr", new DataParameter("@usr", user.Id, DataType.Int64));
+                    var query = db.Query<User>("SELECT id, name, login_count FROM public.user_tbl WHERE id = @usr", new DataParameter("@usr", user.Id));
 
                     foreach (var record in query)
                     {
