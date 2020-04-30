@@ -35,43 +35,54 @@ namespace TestSqlSpeed_Net.Tests.Select
                 //new Select_TestParameters()
                 //{ TestProcedure = Linq2db_SelectTest, UseTransaction = true, OneByOne = false },
 
-                new Select_TestParameters()
-                { TestProcedure = Linq2db_SelectUser_Linq, UseTransaction = true, OneByOne = false },
+                ////
 
-                new Select_TestParameters()
-                { TestProcedure = Linq2db_SelectUser_Linq, UseTransaction = true, OneByOne = true },
+                //new Select_TestParameters()
+                //{ TestProcedure = Linq2db_SelectUser_Linq, UseTransaction = true, OneByOne = false },
 
-                new Select_TestParameters()
-                { TestProcedure = Linq2db_SelectUser_LinqCompiled, UseTransaction = true, OneByOne = true },
+                //new Select_TestParameters()
+                //{ TestProcedure = Linq2db_SelectUser_Linq, UseTransaction = true, OneByOne = true },
 
-                new Select_TestParameters()
-                { TestProcedure = Linq2db_SelectUser_LinqCompiled, UseTransaction = true, OneByOne = false },
+                //new Select_TestParameters()
+                //{ TestProcedure = Linq2db_SelectUser_LinqCompiled, UseTransaction = true, OneByOne = true },
 
-                new Select_TestParameters()
-                { TestProcedure = Linq2db_SelectUser_Query_Params, UseTransaction = true, OneByOne = true },
+                //new Select_TestParameters()
+                //{ TestProcedure = Linq2db_SelectUser_LinqCompiled, UseTransaction = true, OneByOne = false },
+
+                //new Select_TestParameters()
+                //{ TestProcedure = Linq2db_SelectUser_Query_Params, UseTransaction = true, OneByOne = true },
 
                 //new Select_TestParameters()
                 //{ TestProcedure = Linq2db_SelectUser_Query, UseTransaction = true, OneByOne = false },
 
-                //new Select_TestParameters()
-                //{ TestProcedure = Linq2db_SelectUser_Query, UseTransaction = true, OneByOne = true },
+                /////
 
                 //new Select_TestParameters()
                 //{ TestProcedure = Linq2db_SelectUser_Query, UseTransaction = true, OneByOne = true },
 
+                //new Select_TestParameters()
+                //{ TestProcedure = Linq2db_SelectUser_Query, UseTransaction = true, OneByOne = true },
 
 
-                new Select_TestParameters()
-                { TestProcedure = Linq2db_SelectUser_FromSql, UseTransaction = true, OneByOne = false },
+                //new Select_TestParameters()
+                //{ TestProcedure = Linq2db_SelectUser_FromSql, UseTransaction = true, OneByOne = false },
 
-                new Select_TestParameters()
-                { TestProcedure = Linq2db_SelectUser_FromSql, UseTransaction = true, OneByOne = true },
+                //new Select_TestParameters()
+                //{ TestProcedure = Linq2db_SelectUser_FromSql, UseTransaction = true, OneByOne = true },
 
-                new Select_TestParameters()
-                { TestProcedure = Linq2db_SelectUser_FromSql_Params, UseTransaction = true, OneByOne = false },
+                //new Select_TestParameters()
+                //{ TestProcedure = Linq2db_SelectUser_FromSql_Params, UseTransaction = true, OneByOne = false },
 
-                new Select_TestParameters()
-                { TestProcedure = Linq2db_SelectUser_FromSql_Params, UseTransaction = true, OneByOne = true },
+                //new Select_TestParameters()
+                //{ TestProcedure = Linq2db_SelectUser_FromSql_Params, UseTransaction = true, OneByOne = true },
+
+                //new Select_TestParameters()
+                //{ TestProcedure = Linq2db_SelectUser_FromSql_Params, UseTransaction = true, OneByOne = true },
+
+
+
+
+
 
                 //new Select_TestParameters()
                 //{ TestProcedure = Linq2db_SelectUser_Text_WithParameters, UseTransaction = true, OneByOne = false },
@@ -97,11 +108,19 @@ namespace TestSqlSpeed_Net.Tests.Select
                 //new Select_TestParameters()
                 //{ TestProcedure = Linq2db_SelectUser_Text_WithParameters, UseTransaction = false, OneByOne = true },
 
-                //new Select_TestParameters()
-                //{ TestProcedure = Linq2db_SelectUser_Function, UseTransaction = true, OneByOne = false },
+                new Select_TestParameters()
+                { TestProcedure = Linq2db_SelectUser_Proc_Compiled, UseTransaction = true, OneByOne = false },
 
-                //new Select_TestParameters()
-                //{ TestProcedure = Linq2db_SelectUser_Function, UseTransaction = true, OneByOne = true },
+                new Select_TestParameters()
+                { TestProcedure = Linq2db_SelectUser_Proc_Compiled, UseTransaction = true, OneByOne = true },
+
+
+                new Select_TestParameters()
+                { TestProcedure = Linq2db_SelectUser_Proc, UseTransaction = true, OneByOne = false },
+
+                new Select_TestParameters()
+                { TestProcedure = Linq2db_SelectUser_Proc, UseTransaction = true, OneByOne = true },
+
 
             };
         }
@@ -152,17 +171,17 @@ namespace TestSqlSpeed_Net.Tests.Select
             return selectedUsersList;
         }
 
-        private static Func<DataConnection, long, IQueryable<User>> _linqCompiled = 
+        private static Func<DataConnection, long, IQueryable<User>> _linqCompiled =
             CompiledQuery.Compile<DataConnection, long, IQueryable<User>>(
             (_db, userId) => from c in _db.GetTable<User>()
-                     where c.Id == userId
-                     select c);
+                             where c.Id == userId
+                             select c);
 
         private static Func<DataConnection, long[], IQueryable<User>> _linqBatchCompiled =
             CompiledQuery.Compile<DataConnection, long[], IQueryable<User>>(
                 (_db, _usrArr) => from u in _db.GetTable<User>()
-                                 where _usrArr.Contains(u.Id)
-                                 select u
+                                  where _usrArr.Contains(u.Id)
+                                  select u
                 );
 
         private static List<User> Linq2db_SelectUser_LinqCompiled(DBHelper.InnerDbConnection innerConnection, List<User> usersList, Select_TestParameters parameters)
@@ -323,9 +342,9 @@ namespace TestSqlSpeed_Net.Tests.Select
 
                     StringBuilder queryBuilder = new StringBuilder("SELECT id, name, login_count FROM public.user_tbl WHERE id = ");
                     queryBuilder.Append(user.Id.ToString());
-                    
+
                     var query = db.FromSql<User>(queryBuilder.ToString());
-                    
+
                     selectedUsersList.AddRange(query);
                 }
 
@@ -398,6 +417,93 @@ namespace TestSqlSpeed_Net.Tests.Select
                     var query = db.FromSql<User>(concatCommand.ToString());
 
                     selectedUsersList.AddRange(query);
+
+                }
+
+            }
+
+            return selectedUsersList;
+        }
+
+        private static List<User> Linq2db_SelectUser_Proc(DBHelper.InnerDbConnection innerConnection, List<User> usersList, Select_TestParameters parameters)
+        {
+            List<User> selectedUsersList = new List<User>();
+
+            var db = (LinqToDB.Data.DataConnection)innerConnection.Connection;
+
+            if (parameters.OneByOne)
+            {
+
+
+                foreach (var user in usersList)
+                {
+                    //var query = db.FromSql<User>("SELECT * FROM public.user_tbl WHERE id = {0}", user.Id, DataType.Int64);
+
+                    var query = db.QueryProc<User>("user_selectbyid", new DataParameter("pid", user.Id));
+                    //var q = db.QueryProc()
+
+                    selectedUsersList.AddRange(query);
+                }
+            }
+            else
+            {
+                {
+
+                    var idsArray = usersList.Select((User user) => user.Id).ToArray<long>();
+
+                    var query = db.QueryProc<User>("user_selectarraybyid", new DataParameter("pids", idsArray));
+
+                    selectedUsersList.AddRange(query);
+
+                }
+
+            }
+
+            return selectedUsersList;
+        }
+
+        private static Func<DataConnection, long, IEnumerable<User>> funcCompiled =
+            CompiledQuery.Compile<DataConnection, long, IEnumerable<User>>(
+            (_db, _usrId) => _db.QueryProc<User>("user_selectbyid", new DataParameter("pid", _usrId))
+            );
+
+        private static Func<DataConnection, long[], IEnumerable<User>> _funcProcCompiled =
+            CompiledQuery.Compile<DataConnection, long[], IEnumerable<User>>(
+            (_db, _usrArr) => _db.QueryProc<User>("user_selectarraybyid", new DataParameter("pids", _usrArr))
+            );
+
+        private static List<User> Linq2db_SelectUser_Proc_Compiled(DBHelper.InnerDbConnection innerConnection, List<User> usersList, Select_TestParameters parameters)
+        {
+            List<User> selectedUsersList = new List<User>();
+
+            var db = (LinqToDB.Data.DataConnection)innerConnection.Connection;
+
+            if (parameters.OneByOne)
+            {
+
+
+                foreach (var user in usersList)
+                {
+                    //var query = db.FromSql<User>("SELECT * FROM public.user_tbl WHERE id = {0}", user.Id, DataType.Int64);
+
+
+
+
+                    //var query = db.QueryProc<User>("user_selectbyid", new DataParameter("pid", user.Id));
+                    //var q = db.QueryProc()
+
+                    selectedUsersList.AddRange(funcCompiled(db, user.Id));
+                }
+            }
+            else
+            {
+                {
+
+                    var idsArray = usersList.Select((User user) => user.Id).ToArray<long>();
+
+                    //var query = db.QueryProc<User>("user_selectarraybyid", new DataParameter("pids", idsArray));
+
+                    selectedUsersList.AddRange(_funcProcCompiled(db, idsArray));
 
                 }
 

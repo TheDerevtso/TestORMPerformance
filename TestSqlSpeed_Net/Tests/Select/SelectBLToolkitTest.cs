@@ -56,11 +56,11 @@ namespace TestSqlSpeed_Net.Tests.Select
                 //new Select_TestParameters()
                 //{ TestProcedure = BLToolkit_SelectUser_Text_WithParameters, UseTransaction = false, OneByOne = true },
 
-                //new Select_TestParameters()
-                //{ TestProcedure = BLToolkit_SelectUser_Function, UseTransaction = true, OneByOne = false },
+                new Select_TestParameters()
+                { TestProcedure = BLToolkit_SelectUser_Function, UseTransaction = true, OneByOne = false },
 
-                //new Select_TestParameters()
-                //{ TestProcedure = BLToolkit_SelectUser_Function, UseTransaction = true, OneByOne = true },
+                new Select_TestParameters()
+                { TestProcedure = BLToolkit_SelectUser_Function, UseTransaction = true, OneByOne = true },
 
             };
         }
