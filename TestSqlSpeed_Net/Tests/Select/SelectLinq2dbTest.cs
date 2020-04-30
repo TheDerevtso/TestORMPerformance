@@ -48,10 +48,18 @@ namespace TestSqlSpeed_Net.Tests.Select
                 { TestProcedure = Linq2db_SelectUser_LinqCompiled, UseTransaction = true, OneByOne = false },
 
                 new Select_TestParameters()
-                { TestProcedure = Linq2db_SelectUser_Query, UseTransaction = true, OneByOne = false },
+                { TestProcedure = Linq2db_SelectUser_Query_Params, UseTransaction = true, OneByOne = true },
 
-                new Select_TestParameters()
-                { TestProcedure = Linq2db_SelectUser_Query, UseTransaction = true, OneByOne = true },
+                //new Select_TestParameters()
+                //{ TestProcedure = Linq2db_SelectUser_Query, UseTransaction = true, OneByOne = false },
+
+                //new Select_TestParameters()
+                //{ TestProcedure = Linq2db_SelectUser_Query, UseTransaction = true, OneByOne = true },
+
+                //new Select_TestParameters()
+                //{ TestProcedure = Linq2db_SelectUser_Query, UseTransaction = true, OneByOne = true },
+
+
 
                 new Select_TestParameters()
                 { TestProcedure = Linq2db_SelectUser_FromSql, UseTransaction = true, OneByOne = false },
@@ -247,6 +255,61 @@ namespace TestSqlSpeed_Net.Tests.Select
             return selectedUsersList;
         }
 
+        private static List<User> Linq2db_SelectUser_Query_Params(DBHelper.InnerDbConnection innerConnection, List<User> usersList, Select_TestParameters parameters)
+        {
+            List<User> selectedUsersList = new List<User>();
+
+            if (parameters.OneByOne)
+            {
+                var db = (LinqToDB.Data.DataConnection)innerConnection.Connection;
+
+                //var dp = new DataParameter("usId", 0, DataType.Int64);
+
+                foreach (var user in usersList)
+                {
+                    //StringBuilder queryBuilder = new StringBuilder();
+                    //queryBuilder.Append(user.Id.ToString());
+
+                    var query = db.Query<User>("SELECT id, name, login_count FROM public.user_tbl WHERE id = @usr", new DataParameter("@usr", user.Id, DataType.Int64));
+
+                    foreach (var record in query)
+                    {
+                        selectedUsersList.Add(record);
+                    }
+                    //selectedUsersList.AddRange(query.ToArray());
+                    //selectedUsersList.Add(query);
+                }
+            }
+            else
+            {
+                var db = (LinqToDB.Data.DataConnection)innerConnection.Connection;
+
+                {
+                    //var usrArr = usersList.Select(u => u.Id).ToArray();
+
+                    StringBuilder concatCommand = new StringBuilder(
+                            "SELECT * FROM public.user_tbl WHERE id IN ( ");
+
+                    foreach (var usr in usersList)
+                    {
+                        concatCommand.Append(usr.Id.ToString()).Append(',');
+                    }
+
+                    concatCommand.Remove(concatCommand.Length - 1, 1);
+
+                    concatCommand.Append(" )");
+
+                    var query = db.Query<User>(concatCommand.ToString());
+
+
+                    selectedUsersList.AddRange(query);
+
+                }
+            }
+
+            return selectedUsersList;
+        }
+
         private static List<User> Linq2db_SelectUser_FromSql(DBHelper.InnerDbConnection innerConnection, List<User> usersList, Select_TestParameters parameters)
         {
             List<User> selectedUsersList = new List<User>();
@@ -307,11 +370,9 @@ namespace TestSqlSpeed_Net.Tests.Select
 
                 foreach (var user in usersList)
                 {
-
-                    var query = db.FromSql<User>("SELECT * FROM public.user_tbl WHERE id = {0}", user.Id);
+                    var query = db.FromSql<User>("SELECT * FROM public.user_tbl WHERE id = {0}", user.Id, DataType.Int64);
 
                     selectedUsersList.AddRange(query);
-
                 }
             }
             else
